@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday, Mom 🎂💐</title>
+  <meta name="description" content="การ์ดอวยพรวันเกิดแม่ สวย ทันสมัย รองรับทุกขนาดหน้าจอ" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* Theme tokens */
+      --bg: #0b1020;
+      --ink: #eaf1ff;
+      --muted: #c8d3ea;
+      --accent: #ffd86b;
+      --rose: #ff7eb3;
+      --lilac: #9b8cff;
+      --mint: #7fe9d6;
+      --glass: rgba(255,255,255,0.08);
+      --glass-br: rgba(255,255,255,0.18);
+      --radius: 22px;
+      --shadow: 0 10px 35px rgba(0,0,0,.35);
+    }
+
+    /* Global reset (lightweight) */
+    *,*::before,*::after{ box-sizing: border-box; }
+    html,body{ height: 100%; }
+    body{
+      margin: 0; color: var(--ink); background: var(--bg);
+      font-family: 'Prompt', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans Thai", sans-serif;
+      line-height: 1.6; scroll-behavior: smooth;
+    }
+
+    /* Animated gradient background */
+    .bg{
+      position: fixed; inset: 0; z-index: -1;
+      background: radial-gradient(1200px 800px at 10% 20%, rgba(155,140,255,.25), transparent 60%),
+                  radial-gradient(1000px 900px at 90% 30%, rgba(255,126,179,.23), transparent 60%),
+                  radial-gradient(900px 700px at 30% 90%, rgba(127,233,214,.20), transparent 60%),
+                  linear-gradient(180deg, #0b1020 0%, #0b1327 100%);
+      filter: saturate(120%);
+      animation: float 20s linear infinite alternate;
+    }
+    @keyframes float{ to { transform: translate3d(0,-2%,0) scale(1.02); } }
+    @media (prefers-reduced-motion: reduce){ .bg{ animation: none; } }
+
+    /* Layout */
+    .wrap{ max-width: min(1100px, 94vw); margin: 0 auto; padding: clamp(16px, 3vw, 28px); }
+    header.hero{
+      display: grid; gap: clamp(18px, 3vw, 28px);
+      grid-template-columns: 1fr; align-items: center; margin-top: clamp(18px, 3vw, 36px);
+    }
+    @media (min-width: 880px){
+      header.hero{ grid-template-columns: 1.1fr .9fr; }
+    }
+
+    /* Photo card */
+    .photo-card{
+      position: relative; aspect-ratio: 4/5; border-radius: var(--radius);
+      background: var(--glass); border: 1px solid var(--glass-br); overflow: hidden; box-shadow: var(--shadow);
+    }
+    .photo-card img{ width: 100%; height: 100%; object-fit: cover; display: block; filter: contrast(1.05) saturate(1.05); }
+    .photo-note{
+      position: absolute; left: 12px; bottom: 12px; backdrop-filter: blur(8px);
+      background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.15);
+      padding: 10px 14px; border-radius: 14px; font-size: clamp(12px, 1.7vw, 14px); color: #fff;
+    }
+
+    /* Title block */
+    .title{
+      background: var(--glass); border: 1px solid var(--glass-br); border-radius: var(--radius);
+      padding: clamp(16px, 3.2vw, 26px); box-shadow: var(--shadow);
+    }
+    .eyebrow{ color: var(--muted); letter-spacing: .14em; text-transform: uppercase; font-size: clamp(10px, 1.5vw, 12px); }
+    h1{
+      margin: 6px 0 8px; line-height: 1.15; 
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(28px, 6.2vw, 60px);
+      background: linear-gradient(90deg, var(--accent), var(--rose), var(--lilac));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .subtitle{ font-size: clamp(14px, 2.6vw, 18px); color: var(--muted); }
+
+    /* Message card */
+    .card{
+      margin-top: clamp(18px, 3vw, 26px);
+      background: var(--glass); border: 1px solid var(--glass-br);
+      border-radius: var(--radius); padding: clamp(16px, 3vw, 24px);
+      display: grid; gap: clamp(12px, 2.4vw, 18px);
+      box-shadow: var(--shadow);
+    }
+    .quote{
+      font-size: clamp(16px, 2.8vw, 22px);
+      color: #ffffff; font-weight: 300;
+    }
+    .th{ opacity: .92; }
+    .en{ opacity: .85; }
+
+    /* Chips */
+    .chips{ display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip{ border: 1px dashed var(--glass-br); padding: 8px 12px; border-radius: 999px; font-size: 13px; color: var(--muted); }
+
+    /* Buttons */
+    .actions{ display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+    .btn{
+      appearance: none; border: 1px solid var(--glass-br); color: #0b1020; background: linear-gradient(90deg, var(--accent), var(--rose));
+      padding: 12px 18px; border-radius: 14px; font-weight: 700; cursor: pointer;
+      transition: transform .15s ease, filter .15s ease; box-shadow: var(--shadow); text-decoration: none;
+    }
+    .btn.secondary{ color: var(--ink); background: transparent; border: 1px solid var(--glass-br); }
+    .btn:active{ transform: translateY(1px) scale(.995); }
+
+    /* Gallery (optional photos/memories) */
+    .gallery{ display: grid; gap: 12px; margin-top: clamp(16px, 3vw, 24px); }
+    @media (min-width: 640px){ .gallery{ grid-template-columns: repeat(3, 1fr); } }
+    .thumb{ aspect-ratio: 1/1; border-radius: 14px; overflow: hidden; border: 1px solid var(--glass-br); background: var(--glass); }
+    .thumb img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Footer */
+    footer{ color: var(--muted); text-align: center; margin: 28px 0 18px; font-size: 13px; }
+
+    /* Confetti canvas */
+    canvas#fx{ position: fixed; inset: 0; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <canvas id="fx"></canvas>
+
+  <main class="wrap">
+    <header class="hero">
+      <section class="title">
+        <div class="eyebrow">BIRTHDAY • CELEBRATION</div>
+        <h1>Happy Birthday, Mom! 💖</h1>
+        <p class="subtitle th">สุขสันต์วันเกิดคุณแม่ผู้แสนดี ขอบคุณสำหรับความรัก ความอดทน และการดูแลไม่สิ้นสุดของแม่ ขอให้แม่มีความสุข สุขภาพแข็งแรง และยิ้มได้ทุกวัน</p>
+        <p class="subtitle en">Wishing the most wonderful mom endless joy, good health, and all the love you so richly deserve — today and always.</p>
+
+        <div class="chips" aria-label="tags">
+          <span class="chip">#love</span>
+          <span class="chip">#gratitude</span>
+          <span class="chip">#family</span>
+          <span class="chip">#birthday</span>
+        </div>
+
+        <div class="actions">
+          <a class="btn" id="btnConfetti" href="#celebrate">ฉลองเลย 🎉</a>
+          <button class="btn secondary" id="btnShare" type="button">แชร์การ์ด</button>
+        </div>
+      </section>
+
+      <figure class="photo-card" aria-label="Mom Photo">
+        <!-- เปลี่ยน src เป็นรูปของแม่ได้เลย -->
+        <img src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=1470&auto=format&fit=crop" alt="Mom's photo placeholder" />
+        <figcaption class="photo-note">คุณแม่ของเรา คนเก่งของบ้าน 💐</figcaption>
+      </figure>
+    </header>
+
+    <section class="card" id="message">
+      <div>
+        <div class="eyebrow">MESSAGE</div>
+        <p class="quote th">“ขอให้แม่แข็งแรง มีพลังใจที่งดงามเหมือนเดิม และได้ทำในสิ่งที่แม่รักในทุก ๆ วัน เรารักแม่ที่สุด”</p>
+        <p class="quote en">“May your days be bright and gentle, filled with laughter, calm mornings, and little moments that make you smile. Love you, Mom.”</p>
+      </div>
+      <div class="eyebrow">— ด้วยรัก, ลูก</div>
+    </section>
+
+    <section class="gallery" aria-label="Memories Gallery">
+      <!-- แกลเลอรี่ (ลบออกได้ถ้าไม่ใช้) -->
+      <div class="thumb"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1480&auto=format&fit=crop" alt="memory 1"></div>
+      <div class="thumb"><img src="https://images.unsplash.com/photo-1513262599279-d8b5dc69a9f3?q=80&w=1470&auto=format&fit=crop" alt="memory 2"></div>
+      <div class="thumb"><img src="https://images.unsplash.com/photo-1544006659-f0b21884ce1d?q=80&w=1470&auto=format&fit=crop" alt="memory 3"></div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> — ทำด้วยรัก 💗 ปรับแก้ข้อความ/รูปภาพได้ตามใจชอบ
+    </footer>
+  </main>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Share API (fallback copy)
+    const shareBtn = document.getElementById('btnShare');
+    shareBtn?.addEventListener('click', async () => {
+      const data = {
+        title: 'Happy Birthday, Mom! 🎂',
+        text: 'สุขสันต์วันเกิดคุณแม่ที่รัก 💖',
+        url: location.href
+      };
+      if (navigator.share) { try { await navigator.share(data); } catch(e){} }
+      else {
+        try { await navigator.clipboard.writeText(`${data.title} ${data.text} — ${data.url}`); alert('คัดลอกข้อความสำหรับแชร์แล้ว'); } catch(e){}
+      }
+    });
+
+    // Lightweight confetti
+    const canvas = document.getElementById('fx');
+    const ctx = canvas.getContext('2d');
+    let W, H, confs = [];
+
+    function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+    addEventListener('resize', resize, {passive:true});
+    resize();
+
+    function spawn(n=140){
+      for(let i=0;i<n;i++){
+        confs.push({
+          x: Math.random()*W,
+          y: -10 - Math.random()*H,
+          r: 4+Math.random()*6,
+          vy: 1+Math.random()*2.6,
+          vx: -1+Math.random()*2,
+          rot: Math.random()*Math.PI,
+          vr: -0.05 + Math.random()*0.1,
+          c: [
+            '#ffd86b', '#ff7eb3', '#9b8cff', '#7fe9d6', '#ffffff'
+          ][(Math.random()*5)|0]
+        });
+      }
+    }
+
+    function tick(){
+      ctx.clearRect(0,0,W,H);
+      confs.forEach(p=>{
+        p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr;
+        if(p.y>H+20) p.y=-20, p.x=Math.random()*W;
+        ctx.save();
+        ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+        ctx.fillStyle=p.c;
+        ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r);
+        ctx.restore();
+      });
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    document.getElementById('btnConfetti')?.addEventListener('click', e=>{
+      e.preventDefault(); spawn(220);s
+      // gentle pulse on click
+      e.currentTarget.animate([
+        { transform: 'scale(1)' },
+        { transform: 'scale(1.05)' },
+        { transform: 'scale(1)' }
+      ], { duration: 320, easing: 'ease-out' });
+    });
+
+    // Auto sprinkle on load for a warm feel
+    spawn(120);
+
+    // Respect reduced motion
+    const mq = matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq.matches){
+      confs.length = 0; // disable confetti for accessibility
+    }
+  </script>
+</body>
+</html>
