@@ -123,6 +123,50 @@
 
     /* Confetti canvas */
     canvas#fx{ position: fixed; inset: 0; pointer-events: none; }
+
+    /* ===== Slideshow inside .photo-card ===== */
+    .photo-card{ position:relative }
+    .photo-card .slides{ position:relative; width:100%; height:100% }
+    .photo-card .slide{
+      position:absolute; inset:0;
+      opacity:0; transition:opacity 900ms ease; /* ต้อง match FADE_MS */
+    }
+    .photo-card .slide.show{ opacity:1 }
+    .photo-card .slide img{
+      width:100%; height:100%; object-fit:cover; display:block;
+    }
+
+    .photo-card .controls{
+      position:absolute; inset:0; display:flex;
+      align-items:center; justify-content:space-between;
+      padding:0 6px; pointer-events:none;
+    }
+    .photo-card .nav{
+      pointer-events:auto; border:1px solid var(--glass-br);
+      background:rgba(0,0,0,.35); color:#fff; width:40px; height:40px;
+      border-radius:999px; display:grid; place-items:center;
+      cursor:pointer; transition:transform .15s ease, opacity .15s ease;
+      opacity:.9; backdrop-filter: blur(6px);
+    }
+    .photo-card .nav:hover{ transform:scale(1.05); opacity:1 }
+    .photo-card .nav:active{ transform:scale(.97) }
+
+    .photo-card .dots{
+      position:absolute; left:0; right:0; bottom:48px;
+      display:flex; justify-content:center; gap:8px;
+    }
+    .photo-card .dot{
+      width:10px; height:10px; border-radius:999px;
+      background:#6c85b3; border:1px solid #9fb3d8; opacity:.7;
+      transition:opacity .2s ease, transform .2s ease;
+    }
+    .photo-card .dot.active{ opacity:1; transform:scale(1.18); background:var(--accent); border-color:#ffe490 }
+
+    /* รองรับลดการเคลื่อนไหว */
+    @media (prefers-reduced-motion: reduce){
+      .photo-card .slide{ transition:none }
+    }
+
   </style>
 </head>
 <body>
@@ -136,30 +180,29 @@
         <h1>Happy Birthday, Mom! 💖</h1>
         <p class="subtitle th">สุขสันต์วันเกิดคุณแม่ผู้แสนดี ขอบคุณสำหรับความรัก ความอดทน และการดูแลไม่สิ้นสุดของแม่ ขอให้แม่มีความสุข สุขภาพแข็งแรง และยิ้มได้ทุกวัน</p>
         <p class="subtitle en">Wishing the most wonderful mom endless joy, good health, and all the love you so richly deserve — today and always.</p>
-
-        <div class="chips" aria-label="tags">
-          <span class="chip">#love</span>
-          <span class="chip">#gratitude</span>
-          <span class="chip">#family</span>
-          <span class="chip">#birthday</span>
-        </div>
-
-        <div class="actions">
-          <a class="btn" id="btnConfetti" href="#celebrate">ฉลองเลย 🎉</a>
-          <button class="btn secondary" id="btnShare" type="button">แชร์การ์ด</button>
-        </div>
       </section>
 
       <figure class="photo-card" aria-label="Mom Photo">
-        <!-- เปลี่ยน src เป็นรูปของแม่ได้เลย -->
-        <img src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=1470&auto=format&fit=crop" alt="Mom's photo placeholder" />
+        <div class="slides" id="slides">
+          <!-- สไลด์จะถูกสร้างด้วย JS จากรายการรูป SLIDES -->
+        </div>
+
+        <!-- ปุ่มเลื่อน -->
+        <div class="controls">
+          <button class="nav prev" id="prev" aria-label="Previous slide">◀</button>
+          <button class="nav next" id="next" aria-label="Next slide">▶</button>
+        </div>
+
+        <!-- จุดสถานะ -->
+        <div class="dots" id="dots" aria-label="Slide indicators"></div>
+
         <figcaption class="photo-note">คุณแม่ของเรา คนเก่งของบ้าน 💐</figcaption>
       </figure>
     </header>
 
     <section class="card" id="message">
       <div>
-        <div class="eyebrow">MESSAGE</div>
+
         <p class="quote th">“ขอให้แม่แข็งแรง มีพลังใจที่งดงามเหมือนเดิม และได้ทำในสิ่งที่แม่รักในทุก ๆ วัน เรารักแม่ที่สุด”</p>
         <p class="quote en">“May your days be bright and gentle, filled with laughter, calm mornings, and little moments that make you smile. Love you, Mom.”</p>
       </div>
@@ -168,13 +211,13 @@
 
     <section class="gallery" aria-label="Memories Gallery">
       <!-- แกลเลอรี่ (ลบออกได้ถ้าไม่ใช้) -->
-      <div class="thumb"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1480&auto=format&fit=crop" alt="memory 1"></div>
-      <div class="thumb"><img src="https://images.unsplash.com/photo-1513262599279-d8b5dc69a9f3?q=80&w=1470&auto=format&fit=crop" alt="memory 2"></div>
-      <div class="thumb"><img src="https://images.unsplash.com/photo-1544006659-f0b21884ce1d?q=80&w=1470&auto=format&fit=crop" alt="memory 3"></div>
+      <div class="thumb"><img src="images\7.jpg" alt="memory 1"></div>
+      <div class="thumb"><img src="images\9.jpg" alt="memory 2"></div>
+      <div class="thumb"><img src="images\3.jpg" alt="memory 3"></div>
     </section>
 
     <footer>
-      © <span id="year"></span> — ทำด้วยรัก 💗 ปรับแก้ข้อความ/รูปภาพได้ตามใจชอบ
+      © <span id="year"></span>
     </footer>
   </main>
 
@@ -255,6 +298,97 @@
     if (mq.matches){
       confs.length = 0; // disable confetti for accessibility
     }
+
+
+    /* ===== Slideshow config ===== */
+    const SLIDES = [
+      // ใส่ลิงก์รูปของคุณได้ตามต้องการ (รองรับลิงก์ออนไลน์หรือไฟล์ในโปรเจ็กต์)
+      "images/1.jpg",
+      "images/2.jpg",
+      "images/3.jpg",
+      "images/4.jpg",
+      "images/5.jpg",
+      "images/6.jpg",
+      "images/7.jpg",
+      "images/8.jpg",
+      "images/9.jpg",
+      "images/10.jpg",
+      "images/11.jpg"
+    ];
+
+    // ตั้งค่าเวลา (มิลลิวินาที)
+    const AUTOPLAY   = true;     // ให้เล่นอัตโนมัติ
+    const HOLD_MS    = 3500;     // เวลาค้างแต่ละภาพ
+    const FADE_MS    = 900;      // ต้องตรงกับ CSS transition ด้านบน
+
+    // อ้างอิง DOM
+    const slidesWrap = document.getElementById('slides');
+    const dotsWrap   = document.getElementById('dots');
+    const btnPrev    = document.getElementById('prev');
+    const btnNext    = document.getElementById('next');
+
+    let slideNodes = [];
+    let dotNodes   = [];
+    let current    = 0;
+    let timer      = null;
+
+    // สร้างสไลด์ + จุด
+    function buildSlides(){
+      SLIDES.forEach((src, i) => {
+        const s = document.createElement('div');
+        s.className = 'slide';
+        const img = document.createElement('img');
+        img.loading  = 'lazy';
+        img.decoding = 'async';
+        img.src = src;
+        img.alt = `Slide ${i+1}`;
+        s.appendChild(img);
+        slidesWrap.appendChild(s);
+        slideNodes.push(s);
+
+        const d = document.createElement('div');
+        d.className = 'dot';
+        d.addEventListener('click', () => go(i, true));
+        dotsWrap.appendChild(d);
+        dotNodes.push(d);
+      });
+    }
+
+    function render(){
+      slideNodes.forEach((n, i) => n.classList.toggle('show', i === current));
+      dotNodes.forEach((n, i) => n.classList.toggle('active', i === current));
+    }
+
+    function next(){ current = (current + 1) % slideNodes.length; render(); }
+    function prev(){ current = (current - 1 + slideNodes.length) % slideNodes.length; render(); }
+
+    function schedule(){
+      if(!AUTOPLAY) return;
+      clearTimeout(timer);
+      timer = setTimeout(() => { next(); schedule(); }, HOLD_MS + FADE_MS);
+    }
+
+    function go(i, user=false){
+      current = i % slideNodes.length;
+      render();
+      if(user) schedule();
+    }
+
+    // ปุ่มควบคุม
+    btnNext?.addEventListener('click', () => { next(); schedule(); });
+    btnPrev?.addEventListener('click', () => { prev(); schedule(); });
+
+    // ปุ่มลูกศรคีย์บอร์ด
+    window.addEventListener('keydown', (e) => {
+      if(e.key === 'ArrowRight'){ next(); schedule(); }
+      else if(e.key === 'ArrowLeft'){ prev(); schedule(); }
+    });
+
+    // สร้าง + เริ่ม
+    buildSlides();
+    render();
+    schedule();
+
   </script>
 </body>
 </html>
